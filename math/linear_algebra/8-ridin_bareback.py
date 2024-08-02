@@ -4,6 +4,8 @@
 
 def mat_mul(mat1, mat2):
     """Function that performs matrix multiplication"""
+    if len(mat1[0]) != len(mat2):
+        return None
     new_matrix = []
     for i in range(len(mat1)):
         row = []
