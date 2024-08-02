@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Module that performs matrix multiplication"""
-import numpy as np
 
 
 def np_transpose(matrix):
