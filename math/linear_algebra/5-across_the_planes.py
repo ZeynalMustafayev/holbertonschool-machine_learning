@@ -3,11 +3,14 @@
 
 
 def add_matrices2D(mat1, mat2):
-    if len(mat1) != len(mat2):
+    """Function that adds two 2D matrices"""
+    if len(mat1) != len(mat2) or len(mat1[0]) != len(mat2[0]):
         return None
-    array = []
+    matrix = []
     for i in range(len(mat1)):
+        row = []
         for j in range(len(mat1)):
-            z = mat1[i][j] + mat2[i][j]
-            array.append(z)
-        return array
+            sum = mat1[i][j] + mat2[i][j]
+            row.append(sum)
+        matrix.append(row)
+    return matrix
