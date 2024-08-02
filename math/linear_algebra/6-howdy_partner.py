@@ -3,6 +3,7 @@
 
 
 def cat_arrays(arr1, arr2):
+    """Function that concatenates two arrays"""
     new_list = []
     sum = arr1 + arr2
     for i in sum:
