@@ -17,5 +17,6 @@ def change_scale():
     plt.title("Exponential Decay of C-14")
     plt.yscale("log")
     plt.xlim([0,28650])
-    plt.plot(x, y, 'b--')
+    plt.plot(x, y, color='blue', linestyle='-')
     plt.show()
+change_scale()
