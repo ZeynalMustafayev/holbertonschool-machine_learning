@@ -3,57 +3,27 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+np.random.seed(5)
+fruit = np.random.randint(0, 20, (4, 3))
 
-def bars():
-    """Bars"""
-    np.random.seed(5)
-    fruit = np.random.randint(0, 20, (4, 3))
-    plt.figure(figsize=(6.4, 4.8))
+# your code here
+rows = ('apples', 'bananas', 'oranges', 'peaches')
+columns = ('Farrah', 'Fred', 'Felicia')
+index = columns
+colors = ('red', 'yellow', '#ff8000', '#ffe5b4')
+n_rows = len(fruit)
+bar_width = 0.5
+y_offset = np.zeros(len(columns))
 
-    # Fruit types and their colors
-    fruit_names = ['Apples', 'Bananas', 'Oranges', 'Peaches']
-    colors = ['red', 'yellow', '#ff8000', '#ffe5b4']
 
-    # Number of people
-    num_people = fruit.shape[1]
+for row in range(n_rows):
+    plt.bar(index, fruit[row], bar_width, bottom=y_offset,
+            color=colors[row], label=rows[row])
+    y_offset = y_offset + fruit[row]
 
-    # Position of the bars on the x-axis
-    bar_width = 0.5
-    bar_positions = np.arange(num_people)
 
-    # Create the plot
-    ax = plt.gca()
-
-    # Stack the bars for each fruit
-    bottoms = np.zeros(num_people)
-    for i in range(fruit.shape[0]):
-        # Use a dictionary for arguments
-        bar_args = {
-                    'x': bar_positions,
-                    'height': fruit[i],
-                    'width': bar_width,
-                    'bottom': bottoms,
-                    'color': colors[i],
-                    'label': fruit_names[i]
-                    }
-        ax.bar(**bar_args)
-        bottoms += fruit[i]
-
-    # Set the labels and title
-    ax.set_xlabel('Person')
-    ax.set_ylabel('Quantity of Fruit')
-    ax.set_title('Number of Fruit per Person')
-
-    # Set the x-axis ticks and labels
-    ax.set_xticks(bar_positions)
-    ax.set_xticklabels(['Farrah', 'Fred', 'Felicia'])
-
-    # Set the y-axis limits and ticks
-    ax.set_ylim(0, 80)
-    ax.set_yticks(np.arange(0, 81, 10))
-
-    # Add a legend
-    ax.legend()
-
-    # Show the plot
-    plt.show()
+plt.legend()
+plt.yticks(np.arange(0, 90, 10))
+plt.ylabel('Quantity of Fruit')
+plt.title("Number of Fruit per Person")
+plt.show()
