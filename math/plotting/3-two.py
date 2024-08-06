@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 def two():
-    """Two"""
+    """Two is better than one"""
     x = np.arange(0, 21000, 1000)
     r = np.log(0.5)
     t1 = 5730
