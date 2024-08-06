@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Two"""
+"""Two is better than one"""
 import numpy as np
 import matplotlib.pyplot as plt
 
