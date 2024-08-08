@@ -3,29 +3,29 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def bars():
+    """Bars"""
     np.random.seed(5)
     fruit = np.random.randint(0, 20, (4, 3))
     plt.figure(figsize=(6.4, 4.8))
 
-    rows = ('apples', 'bananas', 'oranges', 'peaches')
-    columns = ('Farrah', 'Fred', 'Felicia')
-    index = columns
-    colors = ('red', 'yellow', '#ff8000', '#ffe5b4')
-    n_rows = len(fruit)
-    bar_width = 0.5
-    y_offset = np.zeros(len(columns))
+    people = ["Farrah", "Fred", "Felicia"]
+    colors = ["red", "yellow", "#ff8000", "#ffe5b4"]
 
+    # Plotting the stacked bar graph
+    plt.bar(people, fruit[0], color=colors[0], width=0.5, label="apples")
+    plt.bar(people, fruit[1], color=colors[1],
+            width=0.5, bottom=fruit[0], label="bananas")
+    plt.bar(people, fruit[2], color=colors[2],
+            width=0.5, bottom=fruit[0] + fruit[1], label="oranges")
+    plt.bar(people, fruit[3], color=colors[3],
+            width=0.5, bottom=fruit[0] + fruit[1] + fruit[2], label="peaches")
 
-    for row in range(n_rows):
-        plt.bar(index, fruit[row], bar_width, bottom=y_offset,
-                color=colors[row], label=rows[row])
-        y_offset = y_offset + fruit[row]
-
-
-    plt.legend()
-    plt.ylabel('Quantity of Fruit')
-    plt.yticks(np.arange(0, 90, 10))
+    # Adding labels, title, and legend
+    plt.ylabel("Quantity of Fruit")
+    plt.ylim(0, 80)
+    plt.yticks(np.arange(0, 81, 10))
     plt.title("Number of Fruit per Person")
+    plt.legend()
     plt.show()
-bars()
