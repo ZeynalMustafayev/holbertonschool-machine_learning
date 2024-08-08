@@ -4,9 +4,15 @@
 
 def poly_integral(poly, C=0):
     """poly_integral"""
-    if poly == [] or type(poly) is not list:
+    if type(poly) is not list:
         return None
-    if len(poly) == 1:
+    elif not poly:
+        return None
+    elif len(poly) == 0:
+        return None
+    elif type(C) is not int:
+        return None
+    elif poly == [0]:
         return [C]
     integral = []
     integral.append(C)
