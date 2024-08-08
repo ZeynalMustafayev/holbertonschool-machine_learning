@@ -2,7 +2,7 @@
 """All in One"""
 import numpy as np
 import matplotlib.pyplot as plt
-
+from matplotlib.gridspec import GridSpec
 
 def all_in_one():
     """All in One"""
@@ -29,37 +29,56 @@ def all_in_one():
     np.random.seed(5)
     student_grades = np.random.normal(68, 15, 50)
 
-    # your code here
-    fig, axs = plt.subplots(3, 2, figsize=(12, 8))
+    # Creating the GridSpec layout
+    fig = plt.figure(figsize=(12, 8))
     fig.suptitle("All in One")
-    axs[0, 0].plot(y0, c="red")
-    axs[0, 0].set_xlim([0, 10])
-    axs[0, 0].set_xticks(np.arange(0, 11, 2))
-    axs[0, 0].set_yticks(np.arange(0, 1001, 500))
-    axs[0, 1].scatter(x1, y1, c='magenta')
-    axs[0, 1].set_xlabel('Height (in)')
-    axs[0, 1].set_ylabel('Weight (lbs)')
-    axs[0, 1].set_title('Men\'s Height vs Weight')
-    axs[1, 0].plot(x2, y2)
-    axs[1, 0].set_xlabel("Time (years)")
-    axs[1, 0].set_ylabel("Fraction Remaining")
-    axs[1, 0].set_title("Exponential Decay of C-14")
-    axs[1, 0].set_yscale("log")
-    axs[1, 0].set_xlim([0, 28650])
-    axs[1, 1].plot(x3, y31, linestyle="--", c="red", label="C-14")
-    axs[1, 1].plot(x3, y32, linestyle="-", c="green", label="Ra-226")
-    axs[1, 1].set_xlabel("Time (years)")
-    axs[1, 1].set_ylabel("Fraction Remaining")
-    axs[1, 1].set_title("Exponential Decay of Radioactive Elements")
-    axs[1, 1].set_xlim([0, 20000])
-    axs[1, 1].set_ylim([0, 1])
-    axs[1, 1].legend()
-    axs[2, 0].hist(student_grades, bins=range(0, 110, 10), edgecolor="black")
-    axs[2, 0].set_xlabel("Grades")
-    axs[2, 0].set_ylabel("Number of Students")
-    axs[2, 0].set_title("Project A")
-    axs[2, 0].set_xlim(0, 100)
-    axs[2, 0].set_ylim(0, 30)
-    axs[2, 0].set_xticks(np.arange(0, 110, 10))
+    gs = GridSpec(3, 2, figure=fig)
+
+    # Plot 1: y0 vs. index
+    ax1 = fig.add_subplot(gs[0, 0])
+    ax1.plot(y0, c="red")
+    ax1.set_xlim([0, 10])
+    ax1.set_xticks(np.arange(0, 11, 2))
+    ax1.set_yticks(np.arange(0, 1001, 500))
+
+    # Plot 2: Scatter plot of height vs weight
+    ax2 = fig.add_subplot(gs[0, 1])
+    ax2.scatter(x1, y1, c='magenta')
+    ax2.set_xlabel('Height (in)')
+    ax2.set_ylabel('Weight (lbs)')
+    ax2.set_title("Men's Height vs Weight")
+
+    # Plot 3: Exponential decay of C-14
+    ax3 = fig.add_subplot(gs[1, 0])
+    ax3.plot(x2, y2)
+    ax3.set_xlabel("Time (years)")
+    ax3.set_ylabel("Fraction Remaining")
+    ax3.set_title("Exponential Decay of C-14")
+    ax3.set_yscale("log")
+    ax3.set_xlim([0, 28650])
+
+    # Plot 4: Exponential decay of Radioactive Elements
+    ax4 = fig.add_subplot(gs[1, 1])
+    ax4.plot(x3, y31, linestyle="--", c="red", label="C-14")
+    ax4.plot(x3, y32, linestyle="-", c="green", label="Ra-226")
+    ax4.set_xlabel("Time (years)")
+    ax4.set_ylabel("Fraction Remaining")
+    ax4.set_title("Exponential Decay of Radioactive Elements")
+    ax4.set_xlim([0, 20000])
+    ax4.set_ylim([0, 1])
+    ax4.legend()
+
+    # Plot 5: Histogram of student grades
+    ax5 = fig.add_subplot(gs[2, :])
+    ax5.hist(student_grades, bins=range(0, 110, 10), edgecolor="black")
+    ax5.set_xlabel("Grades")
+    ax5.set_ylabel("Number of Students")
+    ax5.set_title("Project A")
+    ax5.set_xlim(0, 100)
+    ax5.set_ylim(0, 30)
+    ax5.set_xticks(np.arange(0, 110, 10))
+
     plt.tight_layout()
     plt.show()
+
+all_in_one()

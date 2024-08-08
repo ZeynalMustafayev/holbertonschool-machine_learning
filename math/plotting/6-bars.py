@@ -8,7 +8,6 @@ def bars():
     fruit = np.random.randint(0, 20, (4, 3))
     plt.figure(figsize=(6.4, 4.8))
 
-    # your code here
     rows = ('apples', 'bananas', 'oranges', 'peaches')
     columns = ('Farrah', 'Fred', 'Felicia')
     index = columns
@@ -25,8 +24,8 @@ def bars():
 
 
     plt.legend()
-    plt.yticks(np.arange(0, 90, 10))
     plt.ylabel('Quantity of Fruit')
+    plt.yticks(np.arange(0, 90, 10))
     plt.title("Number of Fruit per Person")
     plt.show()
 bars()
