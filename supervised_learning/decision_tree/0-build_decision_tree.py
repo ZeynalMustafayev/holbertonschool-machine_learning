@@ -34,6 +34,7 @@ class Leaf(Node):
         self.depth = depth
 
     def max_depth_below(self):
+        """max depth below"""
         return self.depth
 
 
@@ -54,4 +55,5 @@ class Decision_Tree():
         self.predict = None
 
     def depth(self):
+        """depth"""
         return self.root.max_depth_below()
