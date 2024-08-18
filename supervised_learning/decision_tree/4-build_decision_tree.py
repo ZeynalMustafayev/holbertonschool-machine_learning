@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Task 3: 3. Towards the predict function (1) : the get_leaves method"""
+""" Task 4: 4. Towards the predict function (2) : the update_bounds method"""
 import numpy as np
 
 
@@ -186,6 +186,28 @@ class Node:
             leaves.extend(self.right_child.get_leaves_below())
         return leaves
 
+    def update_bounds_below(self):
+        """
+        Update the bounds for the current node and propagate the
+        bounds to its children.
+        """
+        if self.is_root:
+            self.lower = {0: -np.inf}
+            self.upper = {0: np.inf}
+
+        for child in [self.left_child, self.right_child]:
+            if child:
+                child.lower = self.lower.copy()
+                child.upper = self.upper.copy()
+                if child == self.left_child:
+                    child.lower[self.feature] = self.threshold
+                else:
+                    child.upper[self.feature] = self.threshold
+
+        for child in [self.left_child, self.right_child]:
+            if child:
+                child.update_bounds_below()
+
 
 class Leaf(Node):
     """
@@ -260,6 +282,14 @@ class Leaf(Node):
             The list of all leaves below this leaf.
         """
         return [self]
+
+    def update_bounds_below(self):
+        """
+        Placeholder function for updating the
+        bounds for the current node and propagating the bounds
+        to its children.
+        """
+        pass
 
 
 class Decision_Tree():
@@ -361,3 +391,10 @@ class Decision_Tree():
             The list of all leaves in the tree.
         """
         return self.root.get_leaves_below()
+
+    def update_bounds(self):
+        """
+        Update the bounds for the entire
+        tree starting from the root node.
+        """
+        self.root.update_bounds_below()
