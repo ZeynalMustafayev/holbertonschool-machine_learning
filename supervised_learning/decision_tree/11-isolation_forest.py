@@ -141,7 +141,8 @@ class Isolation_Random_Forest():
             with the smallest mean depth.
         """
         depths = self.predict(explanatory)
-        return explanatory[np.argsort(depths)[:n_suspects]]
+        suspect_indices = np.argsort(depths)[:n_suspects]
+        return explanatory[suspect_indices], depths[suspect_indices]
 
         def set_target(self, target):
             """
