@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-Neuron = __import__('6-neuron').Neuron
+Neuron = __import__('7-neuron').Neuron
 
 lib_train = np.load('Binary_Train.npz')
 X_train_3D, Y_train = lib_train['X'], lib_train['Y']
@@ -14,20 +14,14 @@ X_dev = X_dev_3D.reshape((X_dev_3D.shape[0], -1)).T
 
 np.random.seed(0)
 neuron = Neuron(X_train.shape[0])
-A, cost = neuron.train(X_train, Y_train, iterations=10)
+A, cost = neuron.train(X_train, Y_train, iterations=3000)
 accuracy = np.sum(A == Y_train) / Y_train.shape[1] * 100
-print("Train cost:", np.round(cost, decimals=10))
-print("Train accuracy: {}%".format(np.round(accuracy, decimals=10)))
-print("Train data:", np.round(A, decimals=10))
-print("Train Neuron A:", np.round(neuron.A, decimals=10))
-
+print("Train cost:", cost)
+print("Train accuracy: {}%".format(accuracy))
 A, cost = neuron.evaluate(X_dev, Y_dev)
 accuracy = np.sum(A == Y_dev) / Y_dev.shape[1] * 100
-print("Dev cost:", np.round(cost, decimals=10))
-print("Dev accuracy: {}%".format(np.round(accuracy, decimals=10)))
-print("Dev data:", np.round(A, decimals=10))
-print("Dev Neuron A:", np.round(neuron.A, decimals=10))
-
+print("Dev cost:", cost)
+print("Dev accuracy: {}%".format(accuracy))
 fig = plt.figure(figsize=(10, 10))
 for i in range(100):
     fig.add_subplot(10, 10, i + 1)
