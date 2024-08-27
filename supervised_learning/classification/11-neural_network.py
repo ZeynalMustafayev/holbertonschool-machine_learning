@@ -138,3 +138,23 @@ class NeuralNetwork:
         C2 = np.matmul(self.__W2, self.__A1) + self.__b2
         self.__A2 = 1 / (1 + np.exp(-C2))
         return self.__A1, self.__A2
+
+    def cost(self, Y, A):
+        """
+        Calculates the cost of the model using logistic regression.
+
+        Parameters:
+        Y : numpy.ndarray
+            The correct labels for the input data. Shape is (1, m).
+        A : numpy.ndarray
+            The activated output of the neuron for the input data. Shape is
+            (1, m).
+
+        Returns:
+        float
+            The cost of the model.
+        """
+        m = Y.shape[1]
+        cost = -np.sum((Y * np.log(A)) + ((1 - Y) * np.log(1.0000001 - A)))
+        cost = cost / m
+        return cost
