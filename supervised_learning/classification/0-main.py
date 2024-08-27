@@ -1,32 +1,22 @@
 #!/usr/bin/env python3
 
-import matplotlib.pyplot as plt
 import numpy as np
 
-Neuron = __import__('7-neuron').Neuron
+NN = __import__('8-neural_network').NeuralNetwork
 
 lib_train = np.load('Binary_Train.npz')
-X_train_3D, Y_train = lib_train['X'], lib_train['Y']
-X_train = X_train_3D.reshape((X_train_3D.shape[0], -1)).T
-lib_dev = np.load('Binary_Dev.npz')
-X_dev_3D, Y_dev = lib_dev['X'], lib_dev['Y']
-X_dev = X_dev_3D.reshape((X_dev_3D.shape[0], -1)).T
+X_3D, Y = lib_train['X'], lib_train['Y']
+X = X_3D.reshape((X_3D.shape[0], -1)).T
 
 np.random.seed(0)
-neuron = Neuron(X_train.shape[0])
-A, cost = neuron.train(X_train, Y_train, iterations=3000)
-accuracy = np.sum(A == Y_train) / Y_train.shape[1] * 100
-print("Train cost:", cost)
-print("Train accuracy: {}%".format(accuracy))
-A, cost = neuron.evaluate(X_dev, Y_dev)
-accuracy = np.sum(A == Y_dev) / Y_dev.shape[1] * 100
-print("Dev cost:", cost)
-print("Dev accuracy: {}%".format(accuracy))
-fig = plt.figure(figsize=(10, 10))
-for i in range(100):
-    fig.add_subplot(10, 10, i + 1)
-    plt.imshow(X_dev_3D[i])
-    plt.title(A[0, i])
-    plt.axis('off')
-plt.tight_layout()
-plt.show()
+nn = NN(X.shape[0], 3)
+print(nn.W1)
+print(nn.W1.shape)
+print(nn.b1)
+print(nn.W2)
+print(nn.W2.shape)
+print(nn.b2)
+print(nn.A1)
+print(nn.A2)
+nn.A1 = 10
+print(nn.A1)
