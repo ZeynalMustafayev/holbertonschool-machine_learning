@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-""" Task 14: 14. Train NeuralNetwork """
+""" Task 15: 15. Upgrade Train NeuralNetwork """
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class NeuralNetwork:
@@ -22,22 +23,6 @@ class NeuralNetwork:
     A2 : float
         The activated output of the output neuron, representing the final
         prediction of the network.
-
-    Methods:
-    __init__(self, nx, nodes)
-        Initializes the neural network with given input features and nodes in
-        the hidden layer.
-    def forward_prop(self, X)
-        Computes the forward propagation of the neural network.
-    def cost(self, Y, A)
-        Calculates the cost of the neural network using logistic regression.
-    def evaluate(self, X, Y)
-        Evaluates the neural network’s predictions and calculates the cost.
-    def gradient_descent(self, X, Y, A1, A2, alpha=0.05)
-        Performs one pass of gradient descent on the neural network.
-    train(self, X, Y, iterations=5000, alpha=0.05)
-        Trains the neural network using forward propagation and
-        gradient descent.
     """
 
     def __init__(self, nx, nodes):
@@ -242,39 +227,55 @@ class NeuralNetwork:
         self.__W1 = self.__W1 - (alpha * dW1).T
         self.__b1 = self.__b1 - alpha * db1
 
-    def train(self, X, Y, iterations=5000, alpha=0.05):
+    def train(self, X, Y, iterations=5000, alpha=0.05,
+              verbose=True, graph=True, step=100):
         """
         Trains the neural network using forward propagation
-        and gradient descent.
+        and gradient descent, with optional
+        verbosity and graphical output.
 
         Args:
             X (numpy.ndarray):
-                `nx` is the number of input features,
-                and `m` is the number of examples.
+                `nx` is the number of input features, and `m` is
+                the number of examples.
             Y (numpy.ndarray):
                 for the input data. Each element in `Y` should be
-                either 0 or 1, representing
-                the true binary labels.
+                either 0 or 1, representing the true binary labels.
             iterations (int, optional):
                 The number of times the training loop will execute.
                 Defaults to 5000. Must be a positive integer.
             alpha (float, optional):
-                The learning rate, controlling the step size in
-                gradient descent.
+                The learning rate, controlling the step size
+                in gradient descent.
                 Defaults to 0.05. Must be a positive float.
+            verbose (bool, optional):
+                If True, prints the cost after each step interval.
+                Defaults to True.
+            graph (bool, optional):
+                If True, plots the training cost over iterations at
+                the end of training.
+                Defaults to True.
+            step (int, optional):
+                The interval at which the cost is printed
+                and recorded for graphing.
+                Only relevant if `verbose` or `graph` is True.
+                Defaults to 100.
 
         Raises:
-            TypeError: If `iterations` is not an integer or
-            if `alpha` is not a float.
-            ValueError: If `iterations` is not a positive integer or
-            if `alpha` is not positive.
+            TypeError: If `iterations` is not an integer,
+                       or `alpha` is not a float.
+            ValueError: If `iterations` is not a positive integer,
+                        or `alpha` is not positive.
+            TypeError: If `step` is not an integer.
+            ValueError: If `step` is not positive or greater than `iterations`.
 
-        Returns:
+              Returns:
             tuple: A tuple containing:
-                - A2 (numpy.ndarray): The final prediction of the network
-                after training.
+                - A2 (numpy.ndarray): The final prediction of the
+                network after training.
                 - cost (float): The cost of the model after training,
                 computed using the logistic regression loss.
+
         """
         if not isinstance(iterations, int):
             raise TypeError("iterations must be an integer")
@@ -284,7 +285,26 @@ class NeuralNetwork:
             raise TypeError("alpha must be a float")
         if alpha <= 0:
             raise ValueError("alpha must be positive")
+        if verbose:
+            if type(step) is not int:
+                raise TypeError("step must be an integer")
+            if step <= 0 or step > iterations:
+                raise ValueError("step must be positive and <= iterations")
+        costList = []
+        stepList = []
         for i in range(iterations):
             self.forward_prop(X)
             self.gradient_descent(X, Y, self.__A1, self.__A2, alpha)
+            if i % step == 0 or i == iterations:
+                costList.append(self.cost(Y, self.__A2))
+                stepList.append(i)
+                if verbose is True:
+                    print("Cost after {} iterations: {}".
+                          format(i, self.cost(Y, self.__A2)))
+        if graph:
+            plt.plot(stepList, costList, 'b-')
+            plt.xlabel('iteration')
+            plt.ylabel('cost')
+            plt.title('Training Cost')
+            plt.show()
         return self.evaluate(X, Y)
