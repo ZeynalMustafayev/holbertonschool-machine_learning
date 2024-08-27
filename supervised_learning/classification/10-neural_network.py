@@ -21,11 +21,33 @@ class NeuralNetwork:
         self.W2 = np.random.randn(nodes).reshape(1, nodes)
         self.b2 = 0
         self.A2 = 0
-
-    def forward_prop(self, X):
-        """forward propagation function"""
-        Z1 = np.dot(self.W1, X) + self.b1
-        self.A1 = 1 / (1 + np.exp(-Z1))
-        Z2 = np.dot(self.W2, self.A1) + self.b2
-        self.A2 = 1 / (1 + np.exp(-Z2))
-        return self.A1, self.A2
+    
+    @property
+    def W1(self):
+        """getter for W1"""
+        return self.__W1
+    
+    @property
+    def b1(self):
+        """getter for b1"""
+        return self.__b1
+    
+    @property
+    def A1(self):
+        """getter for A1"""
+        return self.__A1
+    
+    @property
+    def W2(self):
+        """getter for W2"""
+        return self.__W2
+    
+    @property
+    def b2(self):
+        """getter for b2"""
+        return self.__b2
+    
+    @property
+    def A2(self):
+        """getter for A2"""
+        return self.__A2
