@@ -34,17 +34,45 @@ class BayesianOptimization:
             Z = imp / sigma
             EI = imp * norm.cdf(Z) + sigma * norm.pdf(Z)
         return self.X_s[np.argmax(EI)], EI
-    
+
     def optimize(self, iterations=100):
-        """optimize"""
-        for _ in range(iterations):
-            X_new, _ = self.acquisition()
-            Y_new = self.f(X_new)
-            self.gp.update(X_new, Y_new)
-            self.X = np.vstack((self.X, X_new))
-            self.Y = np.vstack((self.Y, Y_new))
+        """
+        Optimize method
+        Args:
+            iterations: maximum number of iterations to perform
+        Returns: x_opt, y_opt
+                 x_opt: numpy.ndarray of shape (1,) representing the optimal
+                 point
+                 y_opt: numpy.ndarray of shape (1,) representing the optimal
+                 function value
+        """
+
+        X_all_s = []
+        for i in range(iterations):
+            # Find the next sampling point xt by optimizing the acquisition
+            # function over the GP: xt = argmaxx μ(x | D1:t−1)
+
+            x_opt, _ = self.acquisition()
+            # If the next proposed point is one that has already been sampled,
+            # optimization should be stopped early
+            if x_opt in X_all_s:
+                break
+
+            y_opt = self.f(x_opt)
+
+            # Add the sample to previous samples
+            # D1: t = {D1: t−1, (xt, yt)} and update the GP
+            self.gp.update(x_opt, y_opt)
+            X_all_s.append(x_opt)
+
         if self.minimize is True:
-            idx = np.argmin(self.Y)
+            index = np.argmin(self.gp.Y)
         else:
-            idx = np.argmax(self.Y)
-        return self.X[idx], self.Y[idx]
+            index = np.argmax(self.gp.Y)
+
+        self.gp.X = self.gp.X[:-1]
+
+        x_opt = self.gp.X[index]
+        y_opt = self.gp.Y[index]
+
+        return x_opt, y_opt
