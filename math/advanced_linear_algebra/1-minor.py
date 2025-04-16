@@ -20,7 +20,7 @@ def minor(matrix):
     # Validate square matrix
     n = len(matrix)
     if any(len(row) != n for row in matrix):
-        raise ValueError("matrix must be a square matrix")
+        raise ValueError("matrix must be a non-empty square matrix")
 
     # Base case
     if n == 1:
