@@ -5,6 +5,7 @@
 determinant = __import__('0-determinant').determinant
 minor = __import__('1-minor').minor
 
+
 def cofactor(matrix):
     """
     Calculates the cofactor of a matrix.
@@ -19,7 +20,7 @@ def cofactor(matrix):
 
     # Validate square matrix
     n = len(matrix)
-    if any(len(row) != n for row in matrix):
+    if n == 0 or any(len(row) != n for row in matrix):
         raise ValueError("matrix must be a non-empty square matrix")
 
     # Base case
@@ -31,6 +32,6 @@ def cofactor(matrix):
     for i in range(n):
         cofactors.append([])
         for j in range(n):
-            minor_matrix = [row[:j] + row[j+1:] for k, row in enumerate(matrix) if k != i]
-            cofactors[i].append(((-1) ** (i + j)) * determinant(minor_matrix))
+            minor = [r[:j] + r[j+1:] for r in matrix[:i] + matrix[i+1:]]
+            cofactors[i].append(((-1) ** (i + j)) * determinant(minor))
     return cofactors

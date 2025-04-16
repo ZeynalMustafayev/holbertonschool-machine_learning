@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""minor.py"""
-
-
+"""adjugate.py"""
 determinant = __import__('0-determinant').determinant
+minor = __import__('1-minor').minor
+cofactor = __import__('2-cofactor').cofactor
 
 
-def minor(matrix):
+def adjugate(matrix):
     """
-    Calculates the minor of a square matrix.
+    Calculates the adjugate of a matrix.
     """
     # Validate matrix is a list of lists
     if not all(isinstance(row, list) for row in matrix):
@@ -27,10 +27,6 @@ def minor(matrix):
         return [[1]]
 
     # Recursive case
-    minors = []
-    for i in range(n):
-        minors.append([])
-        for j in range(n):
-            minor = [r[:j] + r[j+1:] for k, r in enumerate(matrix) if k != i]
-            minors[i].append(determinant(minor))
-    return minors
+    cofactors = cofactor(matrix)
+    adjugate_matrix = [[cofactors[j][i] for j in range(n)] for i in range(n)]
+    return adjugate_matrix
